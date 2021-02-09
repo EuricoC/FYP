@@ -88,10 +88,10 @@ namespace Terrain
             private LODMesh[] lodMeshes;
             private LODMesh collisionLODMesh;
 
-            private MapData mapData;
-            private bool mapDataReceived;
+            MapData mapData;
+            bool mapDataReceived;
 
-            private int previousLODIndex = -1;
+            int previousLODIndex = -1;
         
             public TerrainChunk(Vector2 coord, int size, LODInfo[] detailLevels, Transform parent, Material material)
             {
@@ -137,67 +137,64 @@ namespace Terrain
 
             public void UpdateTerrainChunk()
             {
-                if (!mapDataReceived) return;
-            
-                float viewerDstFromNEdge = Mathf.Sqrt(bounds.SqrDistance(viewerPosition));
-                bool visible = viewerDstFromNEdge <= maxViewDst;
-
-                if (visible)
+                if (mapDataReceived)
                 {
-                    int lodIndex = 0;
+                    float viewerDstFromNEdge = Mathf.Sqrt(bounds.SqrDistance(viewerPosition));
+                    bool visible = viewerDstFromNEdge <= maxViewDst;
 
-                    for (int i = 0; i < detailLevels.Length - 1; i++)
+                    if (visible)
                     {
-                        if (viewerDstFromNEdge > detailLevels[i].visibleDstTreshHold)
+                        int lodIndex = 0;
+
+                        for (int i = 0; i < detailLevels.Length - 1; i++)
                         {
-                            lodIndex = i + 1;
+                            if (viewerDstFromNEdge > detailLevels[i].visibleDstTreshHold)
+                            {
+                                lodIndex = i + 1;
+                            }
+                            else
+                            {
+                                break;
+                            }
                         }
-                        else
+
+                        if (lodIndex != previousLODIndex)
                         {
-                            break;
+                            LODMesh lodMesh = lodMeshes[lodIndex];
+                            if (lodMesh.received)
+                            {
+                                previousLODIndex = lodIndex;
+                                meshFilter.mesh = lodMesh.mesh;
+
+                            }
+                            else if (!lodMesh.requested)
+                            {
+                                lodMesh.RequestMesh(mapData);
+                            }
                         }
+
+                        if (lodIndex == 0)
+                        {
+                            if (collisionLODMesh.received)
+                            {
+                                meshCollider.sharedMesh = collisionLODMesh.mesh;
+                            }
+                            else if (!collisionLODMesh.requested)
+                            {
+                                collisionLODMesh.RequestMesh(mapData);
+                            }
+                        }
+
+                        terrainChunksVisiblePreviously.Add(this);
                     }
 
-                    if (lodIndex != previousLODIndex)
-                    {
-                        LODMesh lodMesh = lodMeshes[lodIndex];
-                        if (lodMesh.received)
-                        {
-                            previousLODIndex = lodIndex;
-                            meshFilter.mesh = lodMesh.mesh;
-                        
-                        }
-                        else if (!lodMesh.requested)
-                        {
-                            lodMesh.RequestMesh(mapData);
-                        }
-                    }
-
-                    if (lodIndex == 0)
-                    {
-                        if (collisionLODMesh.received)
-                        {
-                            meshCollider.sharedMesh = collisionLODMesh.mesh;
-                        }
-                        else if (!collisionLODMesh.requested)
-                        {
-                            collisionLODMesh.RequestMesh(mapData);
-                        }
-                    }
-                    terrainChunksVisiblePreviously.Add(this);
+                    SetVisible(visible);
                 }
-                
-                SetVisible(visible);
             }
 
             public void SetVisible(bool visible)
             {
                 meshObject.SetActive(visible);
-            }
-
-            public bool isVisible()
-            {
-                return meshObject.activeSelf;
             }
         }
 

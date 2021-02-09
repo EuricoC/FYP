@@ -8,58 +8,28 @@ namespace Terrain
 {
     public class MapGenerator : MonoBehaviour
     {
-        public enum DrawMode{NoiseMap, Mesh}
-        public DrawMode drawMode;
 
         public TerrainData.TerrainData terrainData;
         public NoiseData noiseData;
         public TextureData textureData;
     
         public Material terrainMaterial;
-    
-        [Range(0,6)]
-        public int levelOfDetailPreview;
-
-        public bool autoUpdate;
-
 
         private Queue<MapThreadInfo<MapData>> mapDataThreadInfoQ = new Queue<MapThreadInfo<MapData>>();
         private Queue<MapThreadInfo<MeshData>> meshDataThreadInfoQ = new Queue<MapThreadInfo<MeshData>>();
 
-        void OnValuesUpdated()
-        {
-            if (!Application.isPlaying)
-            {
-                DrawMapInEditor();
-            }
-        }
-    
-        void OnTextureValuesUpdated() 
-        {
-            textureData.ApplyToMaterial(terrainMaterial);
-        }
-
         public int mapChunkSize = 239;
 
-
-        public void DrawMapInEditor()
-        {
-            MapData mapData = GenerateMapData(Vector2.zero);
         
-            MapDisplay display = FindObjectOfType<MapDisplay>();
-            if (drawMode == DrawMode.NoiseMap)
-            {
-                display.DrawTexture(TextureGenerator.TextureFromHeightMap(mapData.heightMap));
-            }
-            else if (drawMode == DrawMode.Mesh)
-            {
-                display.DrawMesh(MeshGenerator.GenerateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, levelOfDetailPreview));
-            }
+        void Start() 
+        {
+            textureData.ApplyToMaterial (terrainMaterial);
         }
-    
-    
+        
         public void RequestMapData(Vector2 centre, Action<MapData> callBack)
         {
+            textureData.UpdateMeshHeights (terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
+            
             ThreadStart threadStart = delegate
             {
                 MapDataThread(centre, callBack);
@@ -122,25 +92,6 @@ namespace Terrain
             float[,] noiseMap = Noise.GenerateNoiseMap(noiseData.seed, mapChunkSize + 2, mapChunkSize + 2, noiseData.noiseScale, noiseData.octaves, noiseData.persistance, noiseData.lacunarity,centre + noiseData.offset, noiseData.normalizeMode);
 
             return new MapData(noiseMap);
-        }
-
-        void OnValidate()
-        {
-            if (terrainData != null)
-            {
-                terrainData.OnValuesUpdated -= OnValuesUpdated;
-                terrainData.OnValuesUpdated += OnValuesUpdated;
-            }
-            if (noiseData != null)
-            {
-                noiseData.OnValuesUpdated -= OnValuesUpdated;
-                noiseData.OnValuesUpdated += OnValuesUpdated;
-            }
-            if (textureData != null) 
-            {
-                textureData.OnValuesUpdated -= OnTextureValuesUpdated;
-                textureData.OnValuesUpdated += OnTextureValuesUpdated;
-            }
         }
 
         struct MapThreadInfo<T>

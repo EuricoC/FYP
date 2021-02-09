@@ -3,7 +3,7 @@
 namespace Terrain.TerrainData
 {
     [CreateAssetMenu()]
-    public class NoiseData : UpdatableData 
+    public class NoiseData : ScriptableObject
     {
 
         public Noise.NormalizeMode normalizeMode;
@@ -18,7 +18,7 @@ namespace Terrain.TerrainData
         public int seed;
         public Vector2 offset;
 
-        protected override void OnValidate() 
+        protected void OnValidate() 
         {
             if (lacunarity < 1) {
                 lacunarity = 1;
@@ -26,8 +26,6 @@ namespace Terrain.TerrainData
             if (octaves < 0) {
                 octaves = 0;
             }
-        
-            base.OnValidate();
         }
 
     }

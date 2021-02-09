@@ -10,6 +10,11 @@
 /[Ll]ogs/
 /[Mm]emoryCaptures/
 
+#Ignore Big assets
+/Assets/Imports/
+/Assets/Models/
+/Assets/Materials/
+
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta
 

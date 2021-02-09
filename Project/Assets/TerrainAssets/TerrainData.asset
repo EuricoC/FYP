@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98645fc1826aea6419ec83e8aa656e2b, type: 3}
   m_Name: TerrainData
   m_EditorClassIdentifier: 
-  autoUpdate: 0
-  uniformScale: 2.5
-  meshHeightMultiplier: 10
+  uniformScale: 2
+  meshHeightMultiplier: 20
   meshHeightCurve:
     serializedVersion: 2
     m_Curve:

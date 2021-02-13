@@ -154,6 +154,7 @@ MonoBehaviour:
   terrainData: {fileID: 11400000, guid: 4f9ca90cbdefc0142990037aa7508188, type: 2}
   noiseData: {fileID: 11400000, guid: 69f665f0669422e41871a1f8817066ff, type: 2}
   textureData: {fileID: 11400000, guid: 878334956c386b940b2daa2ef9837603, type: 2}
+  treedata: {fileID: 11400000, guid: db347be7a0cf7f642b0fe97dd5e386ae, type: 2}
   terrainMaterial: {fileID: 2100000, guid: 5b03c72c00860c143bbd8d3016b3ef17, type: 2}
   mapChunkSize: 239
 --- !u!4 &165388532

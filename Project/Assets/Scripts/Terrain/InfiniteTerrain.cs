@@ -30,6 +30,7 @@ namespace Terrain
             chunkSize = mapGenerator.mapChunkSize - 1;
             chunksVisibleInViewDst = Mathf.RoundToInt(maxViewDst / chunkSize);
         
+            mapGenerator.treedata.populate();
             UpdateVisibleChunks();
         }
 
@@ -65,6 +66,7 @@ namespace Terrain
                     if (terrainChunkDic.ContainsKey(viewedChunkCoord))
                     {
                         terrainChunkDic[viewedChunkCoord].UpdateTerrainChunk();
+                        mapGenerator.treedata.populate();
                     }
                     else
                     {
@@ -123,8 +125,9 @@ namespace Terrain
                         collisionLODMesh = lodMeshes[i];
                     }
                 }
-
+                
                 mapGenerator.RequestMapData(position, OnMapDataReceived);
+
             }
 
             void OnMapDataReceived(MapData mapData)

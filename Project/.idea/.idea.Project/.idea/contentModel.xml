@@ -316,6 +316,9 @@
               <e p="TextureData.cs" t="Include" />
             </e>
           </e>
+          <e p="tests" t="Include">
+            <e p="trees.cs" t="Include" />
+          </e>
         </e>
         <e p="TerrainAssets" t="Include">
           <e p="terrainShader.shader" t="Include" />

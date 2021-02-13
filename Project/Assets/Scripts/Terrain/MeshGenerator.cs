@@ -100,6 +100,11 @@ namespace Terrain
       borderTriangles = new int[24 * verticesPLine];
     }
 
+    public Vector3[] GetVertices()
+    {
+      return vertices;
+    }
+
     public void AddVertex(Vector3 vertexPosition, Vector2 uv, int vertexIndex)
     {
       if (vertexIndex < 0)
@@ -111,6 +116,7 @@ namespace Terrain
         vertices[vertexIndex] = vertexPosition;
         uvs[vertexIndex] = uv;
       }
+      
     }
 
     public void AddTriangle(int a, int b, int c)

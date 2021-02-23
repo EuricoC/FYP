@@ -14,6 +14,7 @@
 /Assets/Imports/
 /Assets/Models/
 /Assets/Materials/
+/project/Library/
 
 # Never ignore Asset meta data
 !/[Aa]ssets/**/*.meta

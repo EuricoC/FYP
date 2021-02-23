@@ -6,7 +6,7 @@ namespace Terrain
     public class InfiniteTerrain : MonoBehaviour
     {
         private const float ChunkUpdateThreshold = 25f;
-        private const float sqrChunkUpdateThreshold = ChunkUpdateThreshold * ChunkUpdateThreshold;
+        private const float SqrChunkUpdateThreshold = ChunkUpdateThreshold * ChunkUpdateThreshold;
         private static float maxViewDst;
         public LODInfo[] detailLevel;
     
@@ -22,6 +22,7 @@ namespace Terrain
 
         private Dictionary<Vector2, TerrainChunk> terrainChunkDic = new Dictionary<Vector2, TerrainChunk>();
         static private List<TerrainChunk> terrainChunksVisiblePreviously = new List<TerrainChunk>();
+        
         private void Start()
         {
             mapGenerator = FindObjectOfType<MapGenerator>();
@@ -29,16 +30,17 @@ namespace Terrain
             maxViewDst = detailLevel[detailLevel.Length-1].visibleDstTreshHold;
             chunkSize = mapGenerator.mapChunkSize - 1;
             chunksVisibleInViewDst = Mathf.RoundToInt(maxViewDst / chunkSize);
-        
-            mapGenerator.treedata.populate();
+            
             UpdateVisibleChunks();
         }
 
         private void Update()
         {
+            //mapGenerator.treedata.populate();
+            
             viewerPosition = new Vector2(viewer.position.x, viewer.position.z) / mapGenerator.terrainData.uniformScale;
 
-            if ((viewerPositionOld - viewerPosition).sqrMagnitude > sqrChunkUpdateThreshold)
+            if ((viewerPositionOld - viewerPosition).sqrMagnitude > SqrChunkUpdateThreshold)
             {
                 viewerPositionOld = viewerPosition;
                 UpdateVisibleChunks();
@@ -66,7 +68,7 @@ namespace Terrain
                     if (terrainChunkDic.ContainsKey(viewedChunkCoord))
                     {
                         terrainChunkDic[viewedChunkCoord].UpdateTerrainChunk();
-                        mapGenerator.treedata.populate();
+                        mapGenerator.treedata.Populate();
                     }
                     else
                     {
@@ -85,6 +87,7 @@ namespace Terrain
             private MeshRenderer meshRenderer;
             private MeshFilter meshFilter;
             private MeshCollider meshCollider;
+            private Rigidbody meshRigidBody;
 
             private LODInfo[] detailLevels;
             private LODMesh[] lodMeshes;
@@ -104,10 +107,15 @@ namespace Terrain
                 Vector3 positionV3 = new Vector3(position.x, 0, position.y);
 
                 meshObject = new GameObject("Terrain Chunk");
+                meshObject.tag = "mesh";
                 meshRenderer = meshObject.AddComponent<MeshRenderer>();
                 meshFilter = meshObject.AddComponent<MeshFilter>();
                 meshCollider = meshObject.AddComponent<MeshCollider>();
-            
+                meshRigidBody = meshObject.AddComponent<Rigidbody>();
+
+                meshRigidBody.isKinematic = true;
+                meshRigidBody.useGravity = false;
+
                 meshRenderer.material = material;
             
                 meshObject.transform.position = positionV3 * mapGenerator.terrainData.uniformScale;

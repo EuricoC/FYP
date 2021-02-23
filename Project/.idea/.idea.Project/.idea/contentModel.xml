@@ -4,6 +4,7 @@
     <e p="C:\Users\itzeur\AppData\Local\JetBrains\Rider2020.3\extResources" t="IncludeRecursive" />
     <e p="C:\Users\itzeur\AppData\Local\JetBrains\Rider2020.3\resharper-host\Local\Transient\Rider\v203\SolutionCaches\_Project.-2010255141.00" t="ExcludeRecursive" />
     <e p="C:\Users\itzeur\Desktop\fourth year project\FYP\Project" t="IncludeRecursive">
+      <e p="Assembly-CSharp-Editor.csproj" t="IncludeRecursive" />
       <e p="Assembly-CSharp.csproj" t="IncludeRecursive" />
       <e p="Assets" t="Include">
         <e p="Imports" t="Include">
@@ -11,6 +12,9 @@
             <e p="SteamVR" t="Include">
               <e p="Editor" t="Include">
                 <e p="SteamVR_AutoEnableVR.cs" t="Include" />
+                <e p="SteamVR_AutoEnableVR_2018to2019.cs" t="Include" />
+                <e p="SteamVR_AutoEnableVR_2019plus.cs" t="Include" />
+                <e p="SteamVR_AutoEnableVR_5.4to2018.cs" t="Include" />
                 <e p="SteamVR_Editor.asmdef" t="Include" />
                 <e p="SteamVR_Editor.cs" t="Include" />
                 <e p="SteamVR_Preferences.cs" t="Include" />
@@ -305,6 +309,9 @@
           </e>
         </e>
         <e p="Scripts" t="Include">
+          <e p="Environment" t="Include">
+            <e p="trees.cs" t="Include" />
+          </e>
           <e p="Terrain" t="Include">
             <e p="InfiniteTerrain.cs" t="Include" />
             <e p="MapGenerator.cs" t="Include" />
@@ -317,7 +324,17 @@
             </e>
           </e>
           <e p="tests" t="Include">
-            <e p="trees.cs" t="Include" />
+            <e p="ObjectPool.cs" t="Include" />
+          </e>
+          <e p="Triggers" t="Include">
+            <e p="treetrigger.cs" t="Include" />
+          </e>
+        </e>
+        <e p="SteamVR" t="Include">
+          <e p="OpenVRUnityXRPackage" t="Include">
+            <e p="Editor" t="Include">
+              <e p="OpenVRPackageInstaller.cs" t="Include" />
+            </e>
           </e>
         </e>
         <e p="TerrainAssets" t="Include">

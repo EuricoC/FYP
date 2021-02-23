@@ -70,7 +70,7 @@ namespace Terrain
         
         }
       }
-    
+      
       meshData.BakedNormals();
     
       return meshData;
@@ -100,7 +100,7 @@ namespace Terrain
       borderTriangles = new int[24 * verticesPLine];
     }
 
-    public Vector3[] GetVertices()
+     public Vector3[] GetVertices()
     {
       return vertices;
     }
@@ -194,10 +194,10 @@ namespace Terrain
       Vector3 pointB = (indexB<0)?borderVertices[-indexB-1] : vertices[indexB];
       Vector3 pointC = (indexC<0)?borderVertices[-indexC-1] : vertices[indexC];
 
-      Vector3 sideAB = pointB - pointA;
-      Vector3 sideAC = pointC - pointA;
+      Vector3 sideAb = pointB - pointA;
+      Vector3 sideAc = pointC - pointA;
 
-      return Vector3.Cross(sideAB, sideAC).normalized;
+      return Vector3.Cross(sideAb, sideAc).normalized;
     }
 
     public void BakedNormals()

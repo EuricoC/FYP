@@ -12,7 +12,7 @@ namespace Terrain
         public TerrainData.TerrainData terrainData;
         public NoiseData noiseData;
         public TextureData textureData;
-        public trees treedata;
+        public Trees treedata;
         
         
     
@@ -32,7 +32,6 @@ namespace Terrain
         public void RequestMapData(Vector2 centre, Action<MapData> callBack)
         {
             textureData.UpdateMeshHeights (terrainMaterial, terrainData.minHeight, terrainData.maxHeight);
-            treedata.GetMapHeights(terrainData.minHeight, terrainData.maxHeight);
             //Debug.Log(terrainData.minHeight);
 
             ThreadStart threadStart = delegate
@@ -65,12 +64,13 @@ namespace Terrain
         void MeshDataThread(MapData mapData, int lod, Action<MeshData> callBack)
         {
             MeshData meshData = MeshGenerator.GenerateTerrainMesh(mapData.heightMap, terrainData.meshHeightMultiplier, terrainData.meshHeightCurve, lod);
+            //treedata.GetV(meshData.GetVertices());
+
             lock (meshDataThreadInfoQ)
             {
                 meshDataThreadInfoQ.Enqueue(new MapThreadInfo<MeshData>(callBack, meshData));
             }
             
-            treedata.GetV(meshData.GetVertices());
         }
 
         private void Update()

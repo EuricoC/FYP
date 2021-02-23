@@ -6,8 +6,8 @@ namespace Terrain.TerrainData
     [CreateAssetMenu()]
     public class TextureData : ScriptableObject {
 
-        const int textureSize = 512;
-        const TextureFormat textureFormat = TextureFormat.RGB565;
+        const int TextureSize = 512;
+        const TextureFormat TextureFormat = UnityEngine.TextureFormat.RGB565;
 
         public Layer[] layers;
 
@@ -37,7 +37,7 @@ namespace Terrain.TerrainData
         }
 
         Texture2DArray GenerateTextureArray(Texture2D[] textures) {
-            Texture2DArray textureArray = new Texture2DArray (textureSize, textureSize, textures.Length, textureFormat, true);
+            Texture2DArray textureArray = new Texture2DArray (TextureSize, TextureSize, textures.Length, TextureFormat, true);
             for (int i = 0; i < textures.Length; i++) {
                 textureArray.SetPixels (textures [i].GetPixels (), i);
             }
